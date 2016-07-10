@@ -24,7 +24,7 @@
         this.locationScope = options.locationScope || "";
 
         // zoom level when map is loaded (bigger is more zoomed in)
-        this.defaultZoom = options.defaultZoom || 11; 
+        this.defaultZoom = options.defaultZoom || 15; 
 
         // center that your map defaults to
         this.map_centroid = new google.maps.LatLng(options.map_center[0], options.map_center[1]);
@@ -67,9 +67,6 @@
         else 
             $("#search_radius").val(self.searchRadius);
         
-        $(":checkbox").prop("checked", "checked");
-        $("#result_box").hide();
-
         //-----custom initializers-----
         //-----end of custom initializers-----
 
@@ -157,15 +154,14 @@
 
     MapsLib.prototype.doSearch = function () {
         var self = this;
-        self.clearSearch();
-        var address = $("#search_address").val();
+        self.clearSearch();       
         self.searchRadius = $("#search_radius").val();
         self.whereClause = self.locationColumn + " not equal to ''";
         
         //-----custom filters-----
         //-----end of custom filters-----
 
-        self.getgeoCondition(address, function (geoCondition) {
+        self.getgeoCondition("", function (geoCondition) {
             self.whereClause += geoCondition;
             self.submitSearch(self.whereClause, self.map);
         });
