@@ -68,6 +68,8 @@
             $("#search_radius").val(self.searchRadius);
         
         //-----custom initializers-----
+		$("#search_name").val("");
+		
         //-----end of custom initializers-----
 
         //run the default search when page loads
@@ -159,6 +161,10 @@
         self.whereClause = self.locationColumn + " not equal to ''";
         
         //-----custom filters-----
+		var text_search = $("#search_name").val().replace("'", "\\'");
+		if (text_search != '')
+		  self.whereClause += " AND 'PokemonName' contains ignoring case '" + text_search + "'";
+		  
         //-----end of custom filters-----
 
         self.getgeoCondition("", function (geoCondition) {
