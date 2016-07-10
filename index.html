@@ -117,50 +117,21 @@
           $('#map_canvas').css('height', (h - offsetTop));
         }).resize();
         
-        $(function() {
-          var myMap = new MapsLib({
-            fusionTableId:      "1jXySNXLlcCou-achY7weoTbRXzwqo4f7n9xz7FTN",
-            googleApiKey:       "AIzaSyD-Qe-AbGek9Z96QvmlCjn_yi2P-hyjAV4",
-            locationColumn:     "latitude",
-            map_center:         [43.897148, -79.314753]            
-          });
-
-          var autocomplete = new google.maps.places.Autocomplete(document.getElementById('search_address'));
-      
-          $(':checkbox').click(function(){
-            myMap.doSearch();
-          });
-
-          $(':radio').click(function(){
-            myMap.doSearch();
-          });
-          
-          $('#search_radius').change(function(){
-            myMap.doSearch();
-          });
-          
-          $('#search').click(function(){
-            myMap.doSearch();
-          });
-          
-          $('#find_me').click(function(){
-            myMap.findMe(); 
-            return false;
-          });
-          
-          $('#reset').click(function(){
-            myMap.reset(); 
-            return false;
-          });
-          
-          $(":text").keydown(function(e){
-              var key =  e.keyCode ? e.keyCode : e.which;
-              if(key === 13) {
-                  $('#search').click();
-                  return false;
-              }
-          });
-        });
+		if (navigator.geolocation) {
+		  navigator.geolocation.getCurrentPosition(success);
+		} else {
+		  error('Geo Location is not supported');
+		}
+		
+		function success(position) {
+			var myMap = new MapsLib({
+				fusionTableId:      "16ILDE-HKLWNEnTzN1g6e5IBscYlWgsqKMjZ4WtwO",
+				googleApiKey:       "AIzaSyD-Qe-AbGek9Z96QvmlCjn_yi2P-hyjAV4",
+				locationColumn:     "latitude",
+				map_center:         [position.coords.latitude, position.coords.longitude]            
+			});
+		}
+        
       //]]>
     </script>
   </body>
