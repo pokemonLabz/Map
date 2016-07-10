@@ -90,6 +90,8 @@
     <script type="text/javascript" src="js/maps_lib.js"></script>
     <script type='text/javascript'>
       //<![CDATA[
+	  
+		var myMap;
         $(window).resize(function () {
           var h = $(window).height(),
             offsetTop = 105; // Calculate the top offset
@@ -104,7 +106,7 @@
 		}
 		
 		function success(position) {
-			var myMap = new MapsLib({
+			myMap = new MapsLib({
 				fusionTableId:      "16ILDE-HKLWNEnTzN1g6e5IBscYlWgsqKMjZ4WtwO",
 				googleApiKey:       "AIzaSyD-Qe-AbGek9Z96QvmlCjn_yi2P-hyjAV4",
 				locationColumn:     "Location",
