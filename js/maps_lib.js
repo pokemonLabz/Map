@@ -97,8 +97,7 @@
             templateId: 3
         });
         self.fusionTable = self.searchrecords;
-        self.searchrecords.setMap(map);
-        //self.getCount(whereClause);
+        self.searchrecords.setMap(map);        
 		self.getList(whereClause);
     };
 
@@ -276,17 +275,6 @@
         }
     };
 	
-    MapsLib.prototype.getCount = function (whereClause) {
-        var self = this;
-        var selectColumns = "Count()";
-        self.query({
-            select: selectColumns,
-            where: whereClause
-        }, function (json) {
-            self.displaySearchCount(json);
-        });
-    };
-	
 	MapsLib.prototype.getList = function(whereClause) {
 		var self = this;
 		var selectColumns = 'PokemonName ';
@@ -299,25 +287,6 @@
 		});
 	};
 
-    MapsLib.prototype.displaySearchCount = function (json) {
-        var self = this;
-		var numRows = 0;
-		var data = json["rows"];
-        
-		// Updates result count        
-        if (data != null) {
-            numRows = data.length;
-        }
-        var name = self.recordNamePlural;
-        if (numRows == 1) {
-            name = self.recordName;
-        }
-        $("#result_box").fadeOut(function () {
-            $("#result_count").html(self.addCommas(numRows) + " " + name + " found");
-        });
-        $("#result_box").fadeIn();
-    };
-	
     MapsLib.prototype.addCommas = function (nStr) {
         nStr += '';
         x = nStr.split('.');
@@ -334,8 +303,7 @@
 		var self = this;
 		var data = json['rows'];
 		var template = '';
-		
-		self.displaySearchCount(json);
+		var numRows = 0;	
 		
 		// Updates result names		
 		var results = $('#result_names');
@@ -345,9 +313,20 @@
 		    for (var row in data) {
 				template = "<strong>" + data[row][0] + ";</strong>";
 				results.append(template);
+				numRows++;
 		    }
 		}
 		results.fadeIn();
+		
+		// Updates result count
+		var name = self.recordNamePlural;
+        if (numRows == 1) {
+            name = self.recordName;
+        }
+        $("#result_box").fadeOut(function () {
+            $("#result_count").html(self.addCommas(numRows) + " " + name + " found");
+        });
+        $("#result_box").fadeIn();
 	};
 	
     // maintains map centerpoint for responsive design
