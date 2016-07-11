@@ -92,7 +92,7 @@
                 select: self.locationColumn,
                 where: whereClause
             },
-            styleId: 1,
+            styleId: 2,
             templateId: 3
         });
         self.fusionTable = self.searchrecords;
