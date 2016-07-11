@@ -315,7 +315,7 @@
 				numRows++;
 		    }
 		}
-		results.val(template);
+		results.html(template);
 		results.fadeIn();
 		
 		// Updates result count
