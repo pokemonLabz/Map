@@ -306,7 +306,7 @@
         
 		// Updates result count        
         if (data != null) {
-            numRows = data[0];
+            numRows = data.length;
         }
         var name = self.recordNamePlural;
         if (numRows == 1) {
