@@ -302,21 +302,20 @@
 	MapsLib.prototype.displayList = function(json) {
 		var self = this;
 		var data = json['rows'];
-		var template = '';
+		var template = "";
 		var numRows = 0;	
 		
-		// Updates result names		
-		var results = $('#result_names');
-		results.val(""); //empty existing results first
-
+		// Updates result names				
 		if (data != null) {
 		    for (var row in data) {
-				template += "<strong>" + data[row][0] + "; </strong>";				
+				template += data[row][0] + "; ";				
 				numRows++;
 		    }
 		}
-		results.html(template);
-		results.fadeIn();
+		$("#result_text").fadeOut(function () {
+            $("#result_names").html(template);
+        });		
+		$("#result_text").fadeIn();
 		
 		// Updates result count
 		var name = self.recordNamePlural;
