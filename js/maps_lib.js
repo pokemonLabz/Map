@@ -93,7 +93,7 @@
                 where: whereClause
             },
             styleId: 2,
-            templateId: 2
+            templateId: 3
         });
         self.fusionTable = self.searchrecords;
         self.searchrecords.setMap(map);
