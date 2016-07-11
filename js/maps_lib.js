@@ -311,11 +311,11 @@
 
 		if (data != null) {
 		    for (var row in data) {
-				template = "<strong>" + data[row][0] + ";</strong>";
-				results.append(template);
+				template += "<strong>" + data[row][0] + "; </strong>";				
 				numRows++;
 		    }
 		}
+		results.val(template);
 		results.fadeIn();
 		
 		// Updates result count
