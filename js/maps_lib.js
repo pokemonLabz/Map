@@ -4,8 +4,8 @@
 
         options = options || {};
 
-        this.recordName = options.recordName || "result"; //for showing a count of results
-        this.recordNamePlural = options.recordNamePlural || "results";
+        this.recordName = options.recordName || "Pokemon type"; //for showing a count of results
+        this.recordNamePlural = options.recordNamePlural || "Pokemon types";
         this.searchRadius = options.searchRadius || 805; //in meters ~ 1/2 mile
 
         // the encrypted Table ID of your Fusion Table (found under File => About)
@@ -41,6 +41,7 @@
 
     	this.currentPinpoint = null;
     	$("#result_count").html("");
+		$("#result_names").html("");	
         
         this.myOptions = {
             zoom: this.defaultZoom,
@@ -97,7 +98,8 @@
         });
         self.fusionTable = self.searchrecords;
         self.searchrecords.setMap(map);
-        self.getCount(whereClause);
+        //self.getCount(whereClause);
+		self.getList(whereClause);
     };
 
 
@@ -273,6 +275,7 @@
             }
         }
     };
+	
     MapsLib.prototype.getCount = function (whereClause) {
         var self = this;
         var selectColumns = "Count()";
@@ -283,13 +286,27 @@
             self.displaySearchCount(json);
         });
     };
+	
+	MapsLib.prototype.getList = function(whereClause) {
+		var self = this;
+		var selectColumns = 'PokemonName ';
+
+		self.query({ 
+			select: selectColumns, 
+			where: whereClause 
+		}, function(response) { 
+			self.displayList(response);
+		});
+	};
 
     MapsLib.prototype.displaySearchCount = function (json) {
         var self = this;
+		var numRows = 0;
+		var data = json["rows"];
         
-        var numRows = 0;
-        if (json["rows"] != null) {
-            numRows = json["rows"][0];
+		// Updates result count        
+        if (data != null) {
+            numRows = data[0];
         }
         var name = self.recordNamePlural;
         if (numRows == 1) {
@@ -300,7 +317,7 @@
         });
         $("#result_box").fadeIn();
     };
-
+	
     MapsLib.prototype.addCommas = function (nStr) {
         nStr += '';
         x = nStr.split('.');
@@ -313,6 +330,26 @@
         return x1 + x2;
     };
 
+	MapsLib.prototype.displayList = function(json) {
+		var self = this;
+		var data = json['rows'];
+		var template = '';
+		
+		self.displaySearchCount(json);
+		
+		// Updates result names		
+		var results = $('#result_names');
+		results.val(""); //empty existing results first
+
+		if (data != null) {
+		    for (var row in data) {
+				template = "<strong>" + data[row][0] + ";</strong>";
+				results.append(template);
+		    }
+		}
+		results.fadeIn();
+	};
+	
     // maintains map centerpoint for responsive design
     MapsLib.prototype.calculateCenter = function () {
         var self = this;
